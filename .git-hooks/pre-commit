@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if test `git rev-parse --abbrev-ref HEAD` = "master" ; then 
+  echo "ABORTED: commiting to master is forbidden"
+  exit 1
+fi

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+rbranch="$2"
+cbranch=`git rev-parse --abbrev-ref HEAD`
+
+if test "$cbranch" = 'master' && test "$rbranch" != 'develop'; then
+  echo "ABORTED: rebasing to master from branches other than develop is forbidden"
+  exit 1
+fi

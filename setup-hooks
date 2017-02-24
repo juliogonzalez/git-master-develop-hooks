@@ -1,0 +1,17 @@
+#/bin/sh
+SCRIPTDIR=`dirname $0`
+HOOKDIR="$SCRIPTDIR/.git-hooks"
+GITHOOKDIR="$SCRIPTDIR/.git/hooks"
+
+echo "Disabling default fast-forward merges..."
+git config --add merge.ff false
+
+find $HOOKDIR -type f -iname "*" -print0 | while IFS= read -r -d $'\0' SCRIPT; do
+    echo "Installing hook `basename $SCRIPT`..."
+    if test -L $GITHOOKDIR/`basename $SCRIPT`; then
+      rm $GITHOOKDIR/`basename $SCRIPT`
+    fi
+    ln -s ../../$SCRIPT $GITHOOKDIR/`basename $SCRIPT`
+done
+
+echo "Hooks installed correctly"

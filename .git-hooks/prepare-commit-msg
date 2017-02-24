@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if test "$2" = "merge"; then
+  echo "ABORTED: merging is forbidden (run git reset --merge and use rebase instead)"
+  exit 1
+# This is already present at pre-commit, but some actions
+# such as cherry-picking do not trigger pre-commit
+elif test `git rev-parse --abbrev-ref HEAD` = "master" ; then
+  echo "ABORTED: commiting to master is forbidden "
+  git reset -q --hard
+  exit 1
+fi
